@@ -1,0 +1,174 @@
+{
+    "substitutes": {
+        "butter": [
+            "margarine",
+            "coconut oil",
+            "olive oil",
+            "applesauce (for baking)"
+        ],
+        "milk": [
+            "almond milk",
+            "soy milk",
+            "oat milk",
+            "coconut milk"
+        ],
+        "eggs": [
+            "flax egg",
+            "chia egg",
+            "banana",
+            "applesauce",
+            "silken tofu"
+        ],
+        "flour": [
+            "almond flour",
+            "coconut flour",
+            "oat flour",
+            "rice flour"
+        ],
+        "sugar": [
+            "honey",
+            "maple syrup",
+            "stevia",
+            "coconut sugar",
+            "agave"
+        ],
+        "cream": [
+            "coconut cream",
+            "cashew cream",
+            "evaporated milk"
+        ],
+        "yogurt": [
+            "coconut yogurt",
+            "soy yogurt",
+            "sour cream"
+        ],
+        "cheese": [
+            "nutritional yeast",
+            "cashew cheese",
+            "tofu ricotta"
+        ],
+        "chicken broth": [
+            "vegetable broth",
+            "mushroom broth",
+            "miso broth"
+        ],
+        "soy sauce": [
+            "coconut aminos",
+            "tamari",
+            "liquid aminos"
+        ],
+        "breadcrumbs": [
+            "crushed crackers",
+            "panko",
+            "oats",
+            "almond meal"
+        ],
+        "rice": [
+            "quinoa",
+            "cauliflower rice",
+            "bulgur",
+            "couscous"
+        ],
+        "pasta": [
+            "zucchini noodles",
+            "spaghetti squash",
+            "rice noodles"
+        ],
+        "mayo": [
+            "greek yogurt",
+            "hummus",
+            "avocado"
+        ],
+        "oil": [
+            "applesauce",
+            "mashed banana",
+            "greek yogurt"
+        ],
+        "sour cream": [
+            "greek yogurt",
+            "cottage cheese",
+            "silken tofu"
+        ],
+        "honey": [
+            "maple syrup",
+            "agave",
+            "date syrup",
+            "molasses"
+        ],
+        "garlic": [
+            "garlic powder",
+            "shallots",
+            "asafoetida"
+        ],
+        "onion": [
+            "shallots",
+            "leeks",
+            "onion powder",
+            "scallions"
+        ],
+        "lemon juice": [
+            "lime juice",
+            "white wine vinegar",
+            "apple cider vinegar"
+        ],
+        "wine": [
+            "grape juice",
+            "broth",
+            "cranberry juice"
+        ],
+        "beef": [
+            "mushrooms",
+            "tempeh",
+            "seitan",
+            "jackfruit"
+        ],
+        "chicken": [
+            "tofu",
+            "tempeh",
+            "seitan",
+            "chickpeas"
+        ],
+        "bacon": [
+            "tempeh bacon",
+            "coconut bacon",
+            "smoked paprika"
+        ]
+    },
+    "categories": {
+        "dairy-free": [
+            "milk",
+            "butter",
+            "cheese",
+            "cream",
+            "yogurt",
+            "sour cream"
+        ],
+        "egg-free": [
+            "eggs"
+        ],
+        "gluten-free": [
+            "flour",
+            "breadcrumbs",
+            "pasta"
+        ],
+        "vegan": [
+            "milk",
+            "butter",
+            "cheese",
+            "cream",
+            "yogurt",
+            "eggs",
+            "honey",
+            "beef",
+            "chicken",
+            "bacon"
+        ],
+        "low-carb": [
+            "sugar",
+            "rice",
+            "pasta",
+            "flour",
+            "breadcrumbs"
+        ]
+    }
+}
