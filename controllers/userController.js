@@ -384,7 +384,55 @@ const getSuggestions = async (req, res) => {
     }
 };
 
+// @desc    Get all users
+// @route   GET /api/users
+// @access  Public
+const getAllUsers = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 20;
+        const skip = (page - 1) * limit;
+        const { q } = req.query;
+
+        let filter = {};
+        if (q) {
+            filter = {
+                $or: [
+                    { username: { $regex: q, $options: 'i' } },
+                    { name: { $regex: q, $options: 'i' } }
+                ]
+            };
+        }
+
+        const users = await User.find(filter)
+            .select('username name profileImage bio isVerified followers following')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
+
+        const total = await User.countDocuments(filter);
+
+        res.json({
+            success: true,
+            data: users,
+            pagination: {
+                page,
+                limit,
+                total,
+                pages: Math.ceil(total / limit)
+            }
+        });
+    } catch (error) {
+        console.error('Get all users error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
 module.exports = {
+    getAllUsers,
     getUserProfile,
     toggleFollow,
     getFollowers,

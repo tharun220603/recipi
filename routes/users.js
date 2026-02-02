@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {
+    getAllUsers,
     getUserProfile,
     toggleFollow,
     getFollowers,
@@ -16,6 +17,7 @@ const {
 const { protect, optionalAuth } = require('../middleware/auth');
 
 // Public routes
+router.get('/', getAllUsers);
 router.get('/search', searchUsers);
 
 // Protected routes
