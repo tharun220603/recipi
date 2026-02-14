@@ -550,6 +550,117 @@ const getExplore = async (req, res) => {
     }
 };
 
+// @desc    Get public analytics/stats for dashboard
+// @route   GET /api/recipes/analytics
+// @access  Public
+const getAnalytics = async (req, res) => {
+    try {
+        // Recipes by cuisine
+        const byCuisine = await Recipe.aggregate([
+            { $match: { isPublished: true } },
+            { $group: { _id: '$cuisine', count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 10 }
+        ]);
+
+        // Recipes by difficulty
+        const byDifficulty = await Recipe.aggregate([
+            { $match: { isPublished: true } },
+            { $group: { _id: '$difficulty', count: { $sum: 1 } } },
+            { $sort: { count: -1 } }
+        ]);
+
+        // Recipes by dietary type
+        const byDietaryType = await Recipe.aggregate([
+            { $match: { isPublished: true } },
+            { $group: { _id: '$dietaryType', count: { $sum: 1 } } },
+            { $sort: { count: -1 } }
+        ]);
+
+        // Recipes by category
+        const byCategory = await Recipe.aggregate([
+            { $match: { isPublished: true } },
+            { $group: { _id: '$category', count: { $sum: 1 } } },
+            { $sort: { count: -1 } }
+        ]);
+
+        // Monthly recipe activity (last 12 months)
+        const twelveMonthsAgo = new Date();
+        twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
+
+        const monthlyActivity = await Recipe.aggregate([
+            { $match: { isPublished: true, createdAt: { $gte: twelveMonthsAgo } } },
+            {
+                $group: {
+                    _id: {
+                        year: { $year: '$createdAt' },
+                        month: { $month: '$createdAt' }
+                    },
+                    recipes: { $sum: 1 },
+                    totalLikes: { $sum: { $size: '$likes' } },
+                    totalComments: { $sum: { $size: '$comments' } }
+                }
+            },
+            { $sort: { '_id.year': 1, '_id.month': 1 } }
+        ]);
+
+        // Top recipes by likes
+        const topRecipes = await Recipe.find({ isPublished: true })
+            .sort({ likes: -1 })
+            .limit(5)
+            .select('title likes viewCount comments cuisine author')
+            .populate('author', 'username name');
+
+        // Top contributors (users with most recipes)
+        const topContributors = await Recipe.aggregate([
+            { $match: { isPublished: true } },
+            { $group: { _id: '$author', recipes: { $sum: 1 }, totalLikes: { $sum: { $size: '$likes' } } } },
+            { $sort: { recipes: -1 } },
+            { $limit: 8 },
+            { $lookup: { from: 'users', localField: '_id', foreignField: '_id', as: 'user' } },
+            { $unwind: '$user' },
+            { $project: { username: '$user.username', name: '$user.name', recipes: 1, totalLikes: 1 } }
+        ]);
+
+        // Summary stats
+        const totalRecipes = await Recipe.countDocuments({ isPublished: true });
+        const totalUsers = await User.countDocuments();
+        const totalLikesAgg = await Recipe.aggregate([
+            { $match: { isPublished: true } },
+            { $group: { _id: null, total: { $sum: { $size: '$likes' } } } }
+        ]);
+        const totalCommentsAgg = await Recipe.aggregate([
+            { $match: { isPublished: true } },
+            { $group: { _id: null, total: { $sum: { $size: '$comments' } } } }
+        ]);
+
+        res.json({
+            success: true,
+            data: {
+                summary: {
+                    totalRecipes,
+                    totalUsers,
+                    totalLikes: totalLikesAgg[0]?.total || 0,
+                    totalComments: totalCommentsAgg[0]?.total || 0
+                },
+                byCuisine,
+                byDifficulty,
+                byDietaryType,
+                byCategory,
+                monthlyActivity,
+                topRecipes,
+                topContributors
+            }
+        });
+    } catch (error) {
+        console.error('Get analytics error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
 module.exports = {
     createRecipe,
     getRecipes,
@@ -562,5 +673,6 @@ module.exports = {
     deleteComment,
     searchRecipes,
     getRecommendations,
-    getExplore
+    getExplore,
+    getAnalytics
 };

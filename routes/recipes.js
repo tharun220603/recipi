@@ -12,7 +12,8 @@ const {
     deleteComment,
     searchRecipes,
     getRecommendations,
-    getExplore
+    getExplore,
+    getAnalytics
 } = require('../controllers/recipeController');
 const { protect, optionalAuth } = require('../middleware/auth');
 
@@ -20,6 +21,7 @@ const { protect, optionalAuth } = require('../middleware/auth');
 router.get('/', getRecipes);
 router.get('/search', searchRecipes);
 router.get('/explore', getExplore);
+router.get('/analytics', getAnalytics);
 
 // Protected routes
 router.get('/feed', protect, getFeed);
