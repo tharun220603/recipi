@@ -15,7 +15,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "https://resipihub.netlify.app",
+    origin: process.env.CLIENT_URL || "https://resipihub.netlify.app",
     credentials: true,
   }),
 );
